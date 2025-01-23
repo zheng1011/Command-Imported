@@ -123,14 +123,14 @@ public class ExampleSubsystem extends SubsystemBase{
     double Tag_Area = LimelightHelpers.getTA("");
     double Tag_X = LimelightHelpers.getTX("");
 
-    if (Tag_Area<3 & Tag_Area>0){ 
+    if (Tag_Area<3 && Tag_Area>0){ 
       forward();  
     
-   if (Tag_Area>3||Tag_Area==0)stop();
+    if (Tag_Area>3||Tag_Area==0)stop();
       
-       if (Tag_X >= 4) {
+    if (Tag_X >= 4) {
         right();
-      }
+    }
       else if (Tag_X<-4){
         left();
       }
