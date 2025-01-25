@@ -8,6 +8,7 @@ import java.io.PrintStream;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
@@ -117,32 +118,36 @@ public class ExampleSubsystem extends SubsystemBase{
     Rearleft.set(0);
     Rearright.set(0);
   }
-  public void start(){
+  // public void start(){
     
     
-    double Tag_Area = LimelightHelpers.getTA("");
-    double Tag_X = LimelightHelpers.getTX("");
+  //   double Tag_Area = LimelightHelpers.getTA("");
+  //   double Tag_X = LimelightHelpers.getTX("");
+    
+  //   // double AprilArea = SmartDashboard.getNumber("getA", AprilA);
+  //   // double AprilY = SmartDashboard.getNumber("getYaw",AprilY );
+  //   // double AprilP = SmartDashboard.getNumber("getPitch", AprilP);
+  //   if (Tag_Area<3 && Tag_Area>0){ 
+  //     forward();  
+    
+  //   if (Tag_Area>3||Tag_Area==0)stop();
+      
+  //   if (Tag_X >= 4) {
+  //       right();     
+  //   }
+  //     else if (Tag_X<-4){
+  //       left();
+  //     }
+      
 
-    if (Tag_Area<3 && Tag_Area>0){ 
-      forward();  
-    
-    if (Tag_Area>3||Tag_Area==0)stop();
-      
-    if (Tag_X >= 4) {
-        right();
-    }
-      else if (Tag_X<-4){
-        left();
-      }
-      
-    }
    
     
   }
-}
+
 
   
   
+
 
   
 
