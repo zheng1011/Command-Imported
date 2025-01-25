@@ -1,153 +1,158 @@
 package frc.robot.subsystems;
 
-import java.lang.annotation.Target;
-import java.time.Period;
-import java.util.List;
-
-import javax.naming.spi.DirStateFactory.Result;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-import org.photonvision.targeting.TargetCorner;
 
-import com.fasterxml.jackson.databind.EnumNamingStrategies.CamelCaseStrategy;
+import java.util.List;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
+import org.photonvision.*;
+
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-
+import frc.robot.LimelightHelpers;
 
 public class PhotonVision extends SubsystemBase {
-   public RobotContainer newRobotContainer;
-    PhotonCamera camera = new PhotonCamera("photonvision");
-    private PhotonPipelineResult result ;
-    PhotonTrackedTarget target ;
-    private final ExampleSubsystem newExampleSubsystem = new ExampleSubsystem();
-    
-    boolean hasTargets;
-    public double Yaw;
-    public double Pitch;
-    public double Area;
-    
-    
-     
-    public double getYaw(){
-        periodic();
-        Yaw = target.getYaw();
-            return Yaw;
+    public PhotonCamera camera = new PhotonCamera("limelight");
+    private PhotonPipelineResult result = camera.getLatestResult();
+    private ExampleSubsystem mExampleSubsystem = new ExampleSubsystem();
+    PhotonTrackedTarget target; 
+    private double yaw;
+    private double pitch;
+    private double area;
+    private boolean hastarget;
+
+    List<PhotonTrackedTarget> targets = result.getTargets();
+
+    public void getvisionnum() {
+        PhotonPipelineResult result = camera.getLatestResult();
+        PhotonTrackedTarget target = result.getBestTarget();
+
+        if (result.hasTargets()) {
+            area = target.getArea();
+            yaw = target.getYaw();
+            pitch = target.getPitch();
+            hastarget = true;
+
+            SmartDashboard.putNumber("getY", yaw);
+            SmartDashboard.putNumber("getP", pitch);
+            SmartDashboard.putNumber("getA", area);
+            double Yaw = SmartDashboard.getNumber("getY", 0);
+            double Pitch = SmartDashboard.getNumber("getP", 0);
+            double Area = SmartDashboard.getNumber("getA", 0);
         }
-    public double getPitch() {
-        periodic();
-        Pitch = target.getPitch();
-            return Pitch;
+
+    }
+
+    // 提供 getter 方法
+    public double getYaw() {
+        return yaw;
+    }
+
+    // public double getPitch() {
+    // return pitch;
+    // }
+
+    public double getArea() {
+        return area;
+    }
+
+    public boolean hasTarget() {
+        return result.hasTargets();
+        // return hastarget;
+    }
+
+    public double getBestTarget() {
+
+        if (result.hasTargets()) {
+            target = result.getBestTarget();
+            yaw = target.getYaw();
+            pitch = target.getPitch();
+            area = target.getArea();
+            return target.getYaw();
         }
-    public double getarea(){
-        periodic();
-         Area = target.getArea();
-            return Area;
-        }
-        { if (target == null){
-                double target = -1;
-            }
-            else if(target!=null){
-                Transform3d pose = target.getBestCameraToTarget();}
-         }
-       
+        return target.getYaw();
+
+    }
+
+    
+
+    
+
+    public void getnumfromVision() {
+        if (result.hasTargets()) {
             
+            
+            
+            
+            
+            target = result.getBestTarget();
+            yaw = target.getYaw();
+            pitch = target.getPitch();
+            area = target.getArea();
+            hastarget = result.hasTargets();
+
+            Transform3d bestCameraToTarget = target.getBestCameraToTarget();
+            Transform3d alternateCameraToTarget = target.getAlternateCameraToTarget();
+            
+            getvisionnum();
+            SmartDashboard.putNumber("Yaw", yaw);
+            SmartDashboard.putNumber("Pitch", pitch);
+            SmartDashboard.putNumber("Area", area);
+            // double Yaw = SmartDashboard.getNumber("getY", 0);
+            // double Pitch = SmartDashboard.getNumber("getP", 0);
+            // double Area = SmartDashboard.getNumber("getA", 0);
+        }
+
         
+    }
+
     @Override
-    public void periodic(){
-        getYaw();
-        getPitch();
-        getarea();
-        
-        
-    
-        System.out.println(hasTargets);
-        SmartDashboard.putNumber("getY", Yaw);
-        SmartDashboard.putNumber("getP",Pitch);
-        SmartDashboard.putNumber("getA",Area);
-        double Yaw = SmartDashboard.getNumber("getY", 0);
-        double Pitch= SmartDashboard.getNumber("getP", 0);
-        double Area = SmartDashboard.getNumber("getA", 0);
+    public void periodic() {
+        result = camera.getLatestResult();
+
+        // System.out.println(hastarget);
+
+        // Update Apriltag results
+
+        // PhotonTrackedTarget target;
+        double Yaw;
+        double Area;
+        double Pitch;
+        if (result.hasTargets()) {
+            // getnumfromVision();
+            SmartDashboard.putNumber("getY", result.getBestTarget().getYaw());
+            SmartDashboard.putNumber("getP", result.getBestTarget().getPitch());
+            SmartDashboard.putNumber("getA", result.getBestTarget().getArea());
+            SmartDashboard.getNumber("getY", result.getBestTarget().getYaw());
+            SmartDashboard.getNumber("getP", result.getBestTarget().getPitch());
+            SmartDashboard.getNumber("getA",result.getBestTarget().getArea());}
+            // double Yaw = SmartDashboard.getNumber("getY", 0);
+            // double Pitch = SmartDashboard.getNumber("getP", 0);
+            // double Area = SmartDashboard.getNumber("getA", 0);
+        }
+
+
+        public void start(){
+
      
-    }
-    public void start() {
-        periodic();
-        if ( Area < 2 && Area > 0) {
-            newExampleSubsystem.forward(); // 如果目標的面積小於 3，向前移動
-
-            if (Area > 3 || Area == 0) {
-                newExampleSubsystem.stop(); // 如果目標的面積大於 3 或無目標，停止
-
-                
+            if (result.getBestTarget().getArea()<3 && result.getBestTarget().getArea()>0){
+                mExampleSubsystem.forward();
             }
-
-         if (Yaw >= 13) {
-                newExampleSubsystem.right(); // 如果目標在右邊，向右移動
-            } else if (Yaw < -14) {
-                newExampleSubsystem.left(); // 如果目標在左邊，向左移動
-            } 
-        } 
-    }
+              
+            else if (result.getBestTarget().getArea()>3||result.getBestTarget().getArea()==0){
+                mExampleSubsystem.stop();
+              }
+                
+            if (result.getBestTarget().getYaw()> 13) {
+                mExampleSubsystem.right();     
+              }
+                else if (result.getBestTarget().getYaw()<-14){
+                    mExampleSubsystem.left();
+                
         
-    public double cameraToRobot;
-    public double kTargetHeight;
-    public double kCameraPitch;
-    public double kTargetPitch;
-    public double kCameraHeight;
- 
-  
+            }
+    }
+}
     
-    int targetID = target.getFiducialId();//偵測到的基準標記的 ID
-    { if (target == null){
-        double target = -1;
-    }
-    else if(target!=null){
-       int targetID = target.getFiducialId();}
- }
-    double poseAmbiguity = target.getPoseAmbiguity();
-    { if (target == null){
-        double target = -1;
-    }
-    else if(target!=null){
-        double poseAmbiguity = target.getPoseAmbiguity();}
- }//目標的姿勢有多模糊
-    Transform3d bestCameraToTarget = target.getBestCameraToTarget();
-    { if (target == null){
-        double target = -1;
-    }
-    else if(target!=null){
-        Transform3d bestCameraToTarget = target.getBestCameraToTarget();}}//取得將相機空間（X = 向前、Y = 向左、Z = 向上）對應到物件/基準標記空間（X 向前、Y 向左、Z 向上）的變換
-    Transform3d alternateCameraToTarget = target.getAlternateCameraToTarget();
-    { if (target == null){
-        double target = -1;
-    }
-    else if(target!=null){
-        Transform3d alternateCameraToTarget = target.getAlternateCameraToTarget();}}}
-//取得將相機空間（X = 向前、Y = 向左、Z = 向上）對應到具有最高重投影誤差的物件/基準標記空間
-   
-
-// if (aprilTagFieldLayout.getTagPose(target.getFiducialId()).isPresent()) {
-//     Pose3d robotPose = PhotonUtils.estimateFieldToRobot(target.getBestCameraToTarget(), aprilTagFieldLayout.getTagPose(target.getFiducialId()), cameraToRobot);
-// }
-// Pose2d robotPose = PhotonUtils.estimateFieldToRobot(
-//   kCameraHeight, kTargetHeight, kCameraPitch, kTargetPitch, Rotation2d.fromDegrees(-target.getYaw()), gyro.getRotation2d(), targetPose, cameraToRobot);
-//  cam = new PhotonCamera("testCamera");
-// Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-// public double aprilTagFieldLayout;
-// // Construct PhotonPoseEstimator
-// PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, Cam, robotToCam);
-

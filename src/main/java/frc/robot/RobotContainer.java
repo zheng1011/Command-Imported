@@ -11,7 +11,7 @@ import frc.robot.commands.PhotonAprilTag;
 import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PhotonVision;
-import frc.robot.subsystems.limelight;
+//import frc.robot.subsystems.limelight;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,12 +32,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem mChassis = new ExampleSubsystem();
   private final Candle mCandle = new Candle();
-  private final limelight mLimelight= new limelight();
-  private final PhotonVision mPhotonVision = new PhotonVision();
+  //private final limelight mLimelight= new limelight();
   private final PhotonAprilTag mPhotonAprilTag = new PhotonAprilTag();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController = new XboxController(0); 
   private final PhotonAprilTag nPhotonAprilTag = new PhotonAprilTag();
+  private final PhotonVision mPhotonVision = new PhotonVision();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings

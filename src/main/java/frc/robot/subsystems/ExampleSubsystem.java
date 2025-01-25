@@ -24,10 +24,10 @@ public class ExampleSubsystem extends SubsystemBase{
 
   /** Creates a new ExampleSubsystem. */
   public ExampleSubsystem() {
-    Frontleft.configFactoryDefault();
-      Frontright.configFactoryDefault();
-        Rearleft.configFactoryDefault();
-          Rearleft.configFactoryDefault();
+  Frontleft.configFactoryDefault();
+  Frontright.configFactoryDefault();
+  Rearleft.configFactoryDefault();
+  Rearleft.configFactoryDefault();
 
   Frontleft.setInverted(false);
   Frontright.setInverted(true);
