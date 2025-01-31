@@ -21,6 +21,7 @@ public class PhotonVision extends SubsystemBase {
     private double yaw;
     private double pitch;
     private double area;
+    private int ID;
     private boolean hastarget;
 
     List<PhotonTrackedTarget> targets = result.getTargets();
@@ -33,6 +34,7 @@ public class PhotonVision extends SubsystemBase {
             area = target.getArea();
             yaw = target.getYaw();
             pitch = target.getPitch();
+            ID = target.getFiducialId();
             hastarget = true;}
 
             
@@ -51,38 +53,17 @@ public class PhotonVision extends SubsystemBase {
     public double getArea() {
         return area;
     }
+    public int getFiducialId(){
+        return ID;
+    }
+
+    
 
     public boolean hasTarget() {
         return result.hasTargets();
         // return hastarget;
     }
 
-    
-
-    
-
-    
-
-    public void getnumfromVision() {
-        if (result.hasTargets()) {
-            
-            
-            
-            
-            
-            target = result.getBestTarget();
-            yaw = target.getYaw();
-            pitch = target.getPitch();
-            area = target.getArea();
-            hastarget = result.hasTargets();
-
-            Transform3d bestCameraToTarget = target.getBestCameraToTarget();
-        
-            
-        }
-
-        
-    }
 
     @Override
     public void periodic() {
@@ -94,39 +75,44 @@ public class PhotonVision extends SubsystemBase {
             SmartDashboard.putNumber("getY", result.getBestTarget().getYaw());
             SmartDashboard.putNumber("getP", result.getBestTarget().getPitch());
             SmartDashboard.putNumber("getA", result.getBestTarget().getArea());
-            SmartDashboard.getNumber("getY", result.getBestTarget().getYaw());
-            SmartDashboard.getNumber("getP", result.getBestTarget().getPitch());
-            SmartDashboard.getNumber("getA",result.getBestTarget().getArea());
+            SmartDashboard.putNumber("getID", result.getBestTarget().getFiducialId());
+                SmartDashboard.getNumber("getY", result.getBestTarget().getYaw());
+                SmartDashboard.getNumber("getP", result.getBestTarget().getPitch());
+                SmartDashboard.getNumber("getA",result.getBestTarget().getArea());
+                SmartDashboard.getNumber("getID",result.getBestTarget().getFiducialId());
         }
             // double Yaw = SmartDashboard.getNumber("getY", 0);
             // double Pitch = SmartDashboard.getNumber("getP", 0);
             // double Area = SmartDashboard.getNumber("getA", 0);
         }
-
-
-        public void start(){
-
-            if (result.getBestTarget().getArea()<3 && result.getBestTarget().getArea()>1){
-                mExampleSubsystem.forward();
-            }
-                else if (result.getBestTarget().getArea()<=1){
-                mExampleSubsystem.backward();
-                }
-              
-                else if (result.getBestTarget().getArea()>3 || result.getBestTarget().getArea()==0){
-                mExampleSubsystem.stop();
-                }
+    
+    public void start() {
+        if (result != null && result.hasTargets()) {
+            PhotonTrackedTarget bestTarget = result.getBestTarget();
+            
+            ID = result.getBestTarget().getFiducialId();
+            area = result.getBestTarget().getArea();
+            yaw = result.getBestTarget().getYaw();
                 
-            if (result.getBestTarget().getYaw()> 13) {
-                mExampleSubsystem.right();     
-            }
-                else if (result.getBestTarget().getYaw()<-14){
-                    mExampleSubsystem.left();}
-                else if (result.getBestTarget().getYaw()<13 && result.getBestTarget().getYaw()>-14 ){
+                if (area < 3 && area > 1) {
+                    mExampleSubsystem.forward();
+                } else if (area <= 1) {
+                    mExampleSubsystem.backward();
+                } else if (area > 3 || area == 0) {
+                    mExampleSubsystem.stop();
+                }       
+    
+                if (yaw > 13) {
+                    mExampleSubsystem.right();
+                } else if (yaw < -14) {
+                    mExampleSubsystem.left();
+                } else if (yaw >= -14 && yaw <= 13) {
                     mExampleSubsystem.stop();
                 }
-        
-        }
+            }
+        } 
     }
+
+    
 
     

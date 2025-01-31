@@ -58,7 +58,7 @@ public class RobotContainer {
   
   private void configureBindings() {
     new JoystickButton(m_driverController,1).whileTrue(new InstantCommand(mCandle::startRainbowAnimation)).onFalse(new InstantCommand(mCandle::startTwinkleAnimation));
-    new JoystickButton(m_driverController,2).whileTrue(new InstantCommand(mCandle::setStaticColor)).onFalse(new InstantCommand(mCandle::startTwinkleAnimation));
+    //new JoystickButton(m_driverController,2).whileTrue(new InstantCommand(mCandle::setStaticColor)).onFalse(new InstantCommand(mCandle::startTwinkleAnimation));
     new JoystickButton(m_driverController,3).whileTrue(new InstantCommand(mCandle::stopAnimation));
     new JoystickButton(m_driverController,4).onTrue(new InstantCommand(mCandle::periodic));
 

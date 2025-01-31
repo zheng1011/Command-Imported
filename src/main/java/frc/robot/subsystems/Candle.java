@@ -101,7 +101,7 @@ public class Candle extends SubsystemBase {
         candle.getFaults(faults);
         return faults.hasAnyFault();
     }
-
+/* *
     @Override
     public void periodic(){
         // 定期更新方法，用于监控状态或执行任务
@@ -127,7 +127,7 @@ double TagA = LimelightHelpers.getTA("");
         }
     }
    public void setStaticColor(){}
-    
+   /* */ 
         
     
 }
