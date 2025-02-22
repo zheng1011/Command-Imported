@@ -670,6 +670,7 @@ public class LimelightHelpers {
         return inData[position];
     }
 
+    
     private static PoseEstimate getBotPoseEstimate(String limelightName, String entryName, boolean isMegaTag2) {
         DoubleArrayEntry poseEntry = LimelightHelpers.getLimelightDoubleArrayEntry(limelightName, entryName);
         

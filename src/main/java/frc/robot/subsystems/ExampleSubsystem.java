@@ -119,33 +119,33 @@ public class ExampleSubsystem extends SubsystemBase{
     Rearright.set(0);
   }
   
-  // public void start(){
+  public void start(){
     
     
-  //   double Tag_Area = LimelightHelpers.getTA("");
-  //   double Tag_X = LimelightHelpers.getTX("");
+    double Tag_Area = LimelightHelpers.getTA("");
+    double Tag_X = LimelightHelpers.getTX("");
     
-  //   // double AprilArea = SmartDashboard.getNumber("getA", AprilA);
-  //   // double AprilY = SmartDashboard.getNumber("getYaw",AprilY );
-  //   // double AprilP = SmartDashboard.getNumber("getPitch", AprilP);
-  //   if (Tag_Area<3 && Tag_Area>0){ 
-  //     forward();  
+    // double AprilArea = SmartDashboard.getNumber("getA", AprilA);
+    // double AprilY = SmartDashboard.getNumber("getYaw",AprilY );
+    // double AprilP = SmartDashboard.getNumber("getPitch", AprilP);
+    if (Tag_Area<3 && Tag_Area>0){ 
+      forward();  
     
-  //   if (Tag_Area>3||Tag_Area==0)stop();
+    if (Tag_Area>3||Tag_Area==0)stop();
       
-  //   if (Tag_X >= 4) {
-  //       right();     
-  //   }
-  //     else if (Tag_X<-4){
-  //       left();
-  //     }
+    if (Tag_X >= 4) {
+        right();     
+    }
+      else if (Tag_X<-4){
+        left();
+      }
       
 
    
-    
+   } 
   }
 
-
+}
   
   
 
